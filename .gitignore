@@ -1,0 +1,6 @@
+*.swp
+
+#service folders
+api/
+user-service/
+webapp/
