@@ -15,6 +15,8 @@ This systems wants a `.env` file that follows this format:
 	ITIME_RABBIT_SERVER=rabbit-service
 	ITIME_RABBIT_US_QUEUE=authorize
 
+And a `very_secret_file.json` that you get from google for your ouath2 app!
+
 
 ## Quick start
 To get started developing the iTime system you need to install __docker__ and __git__
