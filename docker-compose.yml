@@ -1,0 +1,40 @@
+version: '3'
+volumes:
+    pgdata:
+services:
+    db:
+        build: ./user-service/schema/.
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+        ports:
+           - 5432:5432
+    rabbit-service:
+        image: "rabbitmq:3"
+        ports:
+           - 5672
+    us:
+        env_file:
+            - ./user-service/.env
+        build: ./user-service/
+        volumes:
+            - ./user-service/:/usr/src/app
+        links:
+            - rabbit-service
+            - db
+
+    api:
+        build: ./api/
+        ports:
+            - "8118:8118"
+        volumes:
+            - ./api/:/go/src/app
+        links:
+            - rabbit-service
+        command: ["./wait-for-it.sh", "rabbit-service:5672", "--","go run","/go/src/app/pajj_api.go" ]
+    webapp:
+        build: ./webapp/
+        ports:
+            - "8080:80"
+        volumes:
+            - ./webapp/www/:/usr/share/nginx/html
+
