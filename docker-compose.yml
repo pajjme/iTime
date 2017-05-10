@@ -24,13 +24,14 @@ services:
 
     api:
         build: ./api/
+        env_file:
+            - ./api/.env
         ports:
             - "8118:8118"
         volumes:
             - ./api/:/go/src/app
         links:
             - rabbit-service
-        command: ["./wait-for-it.sh", "rabbit-service:5672", "--","go run","/go/src/app/pajj_api.go" ]
     webapp:
         build: ./webapp/
         ports:
